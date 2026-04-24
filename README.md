@@ -25,6 +25,8 @@ All accounts below use password **`password123`**.
 
 | Role | Email |
 |---|---|
+| **SHARAN_ADMIN (CRM)** | `sharan_admin@stilwater.demo` |
+| **AMAR_ADMIN (CRM)** | `amar_admin@stilwater.demo` |
 | Stilwater super-admin | `admin@stilwater.demo` |
 | SHARAN owner | `owner@sharan.demo` |
 | SHARAN admin | `admin@sharan.demo` |

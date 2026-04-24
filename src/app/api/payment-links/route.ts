@@ -23,12 +23,20 @@ export async function POST(req: Request) {
   const user = getPartnerUser();
   if (!user) return NextResponse.json({ error: "unauth" }, { status: 401 });
   const body = await req.json();
-  const { leadId, purpose, programId, amountInr, description } = body as {
+  const {
+    leadId,
+    purpose,
+    programId,
+    amountInr,
+    description,
+    silent,
+  } = body as {
     leadId?: string;
     purpose: PaymentPurpose;
     programId?: string;
     amountInr?: number;
     description?: string;
+    silent?: boolean;
   };
   if (!leadId || !purpose) {
     return NextResponse.json({ error: "leadId and purpose required" }, { status: 400 });
@@ -76,17 +84,19 @@ export async function POST(req: Request) {
     lead.status = "agreed_to_purchase";
 
     const url = `/pay-link/${pl.token}`;
-    pushMessage(db, {
-      leadId,
-      channel: "whatsapp",
-      text: `Hi ${lead.name.split(" ")[0]}, here's your secure payment link for "${desc}" — ₹${amount}.\n\nPay here: ${url}\n\nIf you have any questions just reply to this message.`,
-    });
-    if (lead.email) {
+    if (!silent) {
       pushMessage(db, {
         leadId,
-        channel: "email",
-        text: `Subject: Your payment link for ${desc}\n\nHi ${lead.name},\n\nHere's your secure payment link for ${desc} — ₹${amount}.\n\nPay here: ${url}\n\nThank you,\nSHARAN team`,
+        channel: "whatsapp",
+        text: `Hi ${lead.name.split(" ")[0]}, here's your secure payment link for "${desc}" — ₹${amount}.\n\nPay here: ${url}\n\nIf you have any questions just reply to this message.`,
       });
+      if (lead.email) {
+        pushMessage(db, {
+          leadId,
+          channel: "email",
+          text: `Subject: Your payment link for ${desc}\n\nHi ${lead.name},\n\nHere's your secure payment link for ${desc} — ₹${amount}.\n\nPay here: ${url}\n\nThank you,\nSHARAN team`,
+        });
+      }
     }
 
     return pl;

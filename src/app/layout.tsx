@@ -3,8 +3,8 @@ import "./globals.css";
 import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
 import { getPartnerUser, getPatient } from "@/lib/auth";
-import { readDB } from "@/lib/db";
 import LogoutButton from "@/components/LogoutButton";
+import StilwaterLogo from "@/components/StilwaterLogo";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -14,9 +14,9 @@ const serif = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Stillwater — the global community of holistic healing",
+  title: "Stillwater — the global community for holistic healing",
   description:
-    "Stillwater connects patients with wellness providers like SHARAN and Amar Eye Yoga — from first ad click to consultation, transcript and follow-up.",
+    "Stillwater is the global community for holistic healing. Reverse lifestyle diseases with Yoga, Meditation, plant-based nutrition and Ayurveda — guided by AI.",
 };
 
 export default function RootLayout({
@@ -26,50 +26,27 @@ export default function RootLayout({
 }) {
   const partner = getPartnerUser();
   const patient = getPatient();
-  const db = readDB();
-
-  const scopedProviders = partner
-    ? partner.role === "stilwater_admin"
-      ? db.providers
-      : db.providers.filter((p) => p.id === partner.providerId)
-    : patient
-    ? db.providers.filter((p) => p.id === patient.providerId)
-    : db.providers;
 
   return (
     <html lang="en" className={serif.variable}>
       <body>
         <header className="sticky top-0 z-40 bg-still-900 text-white print:hidden">
           <div className="mx-auto max-w-6xl px-5 py-4 flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-3">
-              <span className="inline-block h-7 w-7 rounded-full bg-gradient-to-br from-still-400 to-still-200" />
-              <span className="font-serif tracking-[0.35em] text-lg uppercase">
-                Stillwater
-              </span>
-            </Link>
+            <StilwaterLogo href="/" size="md" />
             <nav className="hidden md:flex gap-6 text-xs uppercase tracking-[0.25em] text-white/70">
               {!partner && !patient && (
                 <>
-                  <Link href="/#vision" className="hover:text-white">
-                    Vision
+                  <Link
+                    href="/partner-ai-tools"
+                    className="hover:text-white"
+                  >
+                    Partner AI Tools
                   </Link>
-                  <Link href="/#providers" className="hover:text-white">
-                    Providers
-                  </Link>
-                  <Link href="/ad-simulator" className="hover:text-white">
-                    Demo
+                  <Link href="/ai-healers" className="hover:text-white">
+                    AI Healers
                   </Link>
                 </>
               )}
-              {scopedProviders.length === 1 &&
-                (partner || patient) && (
-                  <Link
-                    href={`/providers/${scopedProviders[0].id}`}
-                    className="hover:text-white"
-                  >
-                    {scopedProviders[0].name}
-                  </Link>
-                )}
               {partner && (
                 <Link href="/partner" className="hover:text-white">
                   Partner portal
@@ -96,13 +73,13 @@ export default function RootLayout({
                     href="/patient/login"
                     className="text-xs uppercase tracking-[0.2em] text-white/80 hover:text-white"
                   >
-                    Patient
+                    User login
                   </Link>
                   <Link
                     href="/login"
                     className="inline-flex items-center rounded border border-white/40 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white hover:bg-white/10"
                   >
-                    Partner Sign In
+                    Partner login
                   </Link>
                 </>
               )}
@@ -145,7 +122,7 @@ export default function RootLayout({
             Stillwater
           </span>
           <div className="mt-1">
-            prototype · demo data only · no real payments or messages are sent
+            The global community for holistic healing · prototype · demo data only
           </div>
         </footer>
       </body>

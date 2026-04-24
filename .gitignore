@@ -6,3 +6,4 @@ out
 data/db.json
 .DS_Store
 *.log
+tsconfig.tsbuildinfo

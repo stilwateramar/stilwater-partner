@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPartnerUser, canManageTeam } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 import LogoutButton from "@/components/LogoutButton";
+import ProviderLogo from "@/components/ProviderLogo";
 
 export default function PartnerLayout({
   children,
@@ -21,36 +22,39 @@ export default function PartnerLayout({
   const isDoctor = user.role === "doctor";
 
   return (
-    <div className="grid md:grid-cols-[220px_1fr] gap-6">
+    <div className="grid md:grid-cols-[240px_1fr] gap-6">
       <aside className="card p-4 h-max md:sticky md:top-20">
-        <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+        <div className="pb-3 border-b border-slate-100">
           {provider ? (
-            <span
-              className="h-8 w-8 rounded-lg"
-              style={{ background: provider.color }}
-            />
+            <ProviderLogo provider={provider} size="md" />
           ) : (
-            <span className="h-8 w-8 rounded-lg bg-slate-800" />
+            <div className="flex items-center gap-2">
+              <span className="h-9 w-9 rounded-lg bg-slate-800" />
+              <div>
+                <div className="text-sm font-semibold">Stilwater</div>
+              </div>
+            </div>
           )}
-          <div>
-            <div className="text-sm font-semibold">
-              {provider?.name ?? "Stilwater"}
-            </div>
-            <div className="text-[10px] uppercase tracking-wider text-slate-500">
-              {user.role.replace("_", " ")}
-            </div>
+          <div className="mt-2 text-[10px] uppercase tracking-wider text-slate-500">
+            {user.role.replace("_", " ")} workspace
           </div>
         </div>
         <nav className="mt-3 flex md:flex-col gap-1 text-sm flex-wrap">
           <NavItem href="/partner" label="Overview" />
-          <NavItem href="/partner/leads" label="Leads" />
+          <NavItem href="/partner/leads" label="CRM · Leads" />
           <NavItem href="/partner/calls" label="Call log" />
           <NavItem href="/partner/payments" label="Payments & invoices" />
           {isDoctor && (
             <NavItem href="/partner/doctor" label="Doctor queue" />
           )}
           {isManager && (
-            <NavItem href="/partner/team" label="Team &amp; roles" />
+            <>
+              <NavItem href="/partner/team" label="Team &amp; admins" />
+              <NavItem
+                href="/partner/whatsapp"
+                label="WhatsApp connection"
+              />
+            </>
           )}
         </nav>
         <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">

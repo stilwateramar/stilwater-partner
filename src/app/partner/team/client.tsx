@@ -63,11 +63,12 @@ export default function TeamClient({
   return (
     <div className="space-y-6">
       <div>
-        <p className="label">Team &amp; roles</p>
-        <h1 className="text-2xl font-semibold">Manage users</h1>
+        <p className="label">Team &amp; admins</p>
+        <h1 className="text-2xl font-semibold">Manage users &amp; admins</h1>
         <p className="text-sm text-slate-500">
-          Create staff accounts for your workspace. Roles: <code>owner</code>,{" "}
-          <code>admin</code>, <code>agent</code>, <code>doctor</code>.
+          Create another admin login, or invite agents and doctors. Roles:{" "}
+          <code>owner</code>, <code>admin</code>, <code>agent</code>,{" "}
+          <code>doctor</code>.
         </p>
       </div>
 

@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const DEMOS = [
+  { who: "SHARAN_ADMIN (CRM)", email: "sharan_admin@stilwater.demo", brand: "sharan" },
+  { who: "AMAR_ADMIN (CRM)", email: "amar_admin@stilwater.demo", brand: "amar" },
   { who: "Stilwater super-admin", email: "admin@stilwater.demo" },
   { who: "SHARAN owner", email: "owner@sharan.demo" },
-  { who: "SHARAN admin", email: "admin@sharan.demo" },
   { who: "SHARAN agent (makes calls)", email: "agent@sharan.demo" },
   { who: "SHARAN doctor", email: "doctor@sharan.demo" },
   { who: "Amar Eye Yoga owner", email: "owner@amareye.demo" },
@@ -16,7 +17,7 @@ const DEMOS = [
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("agent@sharan.demo");
+  const [email, setEmail] = useState("sharan_admin@stilwater.demo");
   const [password, setPassword] = useState("password123");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
@@ -36,16 +37,17 @@ export default function Login() {
     }
     const { user } = await r.json();
     if (user.role === "stilwater_admin") router.push("/admin");
-    else router.push("/partner");
+    else if (user.role === "doctor") router.push("/partner/doctor");
+    else router.push("/partner/leads");
   }
 
   return (
     <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-10">
       <div className="card p-6">
         <p className="label">Partner login</p>
-        <h1 className="text-2xl font-semibold">Sign in to your workspace</h1>
+        <h1 className="text-2xl font-semibold">Sign in to your CRM</h1>
         <p className="text-sm text-slate-500 mt-1">
-          For partner staff (SHARAN, Amar Eye Yoga) and Stilwater admins.
+          CRM access for SHARAN_ADMIN, AMAR_ADMIN and all partner staff.
         </p>
         <div className="mt-5 space-y-3">
           <div>
@@ -75,9 +77,9 @@ export default function Login() {
             {busy ? "Signing in…" : "Sign in"}
           </button>
           <div className="pt-2 text-sm text-slate-500">
-            Are you a patient?{" "}
+            Are you a user/patient?{" "}
             <Link className="underline" href="/patient/login">
-              Patient login
+              User login
             </Link>
           </div>
         </div>
@@ -98,10 +100,36 @@ export default function Login() {
                   setEmail(d.email);
                   setPassword("password123");
                 }}
-                className="w-full text-left rounded-lg border border-slate-200 px-3 py-2 hover:border-still-400"
+                className="w-full text-left rounded-lg border border-slate-200 px-3 py-2 hover:border-still-400 flex items-center gap-3"
               >
-                <div className="font-medium">{d.who}</div>
-                <div className="text-xs text-slate-500">{d.email}</div>
+                {d.brand === "sharan" && (
+                  <span
+                    className="h-7 w-7 shrink-0 rounded-full flex items-center justify-center text-xs"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 30% 30%, #6dcf9c, #2f9e6b 55%, #0b6b43)",
+                    }}
+                  >
+                    🌱
+                  </span>
+                )}
+                {d.brand === "amar" && (
+                  <span
+                    className="h-7 w-7 shrink-0 rounded-full flex items-center justify-center text-xs"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 30% 30%, #7a9cff, #4b6bdf 55%, #2e46a8)",
+                    }}
+                  >
+                    👁️
+                  </span>
+                )}
+                <span className="flex-1">
+                  <span className="block font-medium">{d.who}</span>
+                  <span className="block text-xs text-slate-500">
+                    {d.email}
+                  </span>
+                </span>
               </button>
             </li>
           ))}

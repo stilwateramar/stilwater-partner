@@ -31,6 +31,9 @@ function buildSeed(): DB {
           "Stress & sleep coaching",
         ],
         color: "#2f9e6b",
+        logoText: "SHARAN",
+        logoAccent: "#0b6b43",
+        whatsappNumber: "+91 98000 12345",
       },
       {
         id: "amar-eye-yoga",
@@ -46,6 +49,9 @@ function buildSeed(): DB {
           "Pediatric eye yoga",
         ],
         color: "#4b6bdf",
+        logoText: "AMAR EYE YOGA",
+        logoAccent: "#2e46a8",
+        whatsappNumber: "+91 98000 67890",
       },
     ],
     doctors: [
@@ -107,6 +113,15 @@ function buildSeed(): DB {
         createdAt: now,
       },
       {
+        id: "u_sharan_crm_admin",
+        providerId: "sharan",
+        email: "sharan_admin@stilwater.demo",
+        name: "SHARAN_ADMIN",
+        passwordHash: hash(DEMO_PW),
+        role: "admin",
+        createdAt: now,
+      },
+      {
         id: "u_sharan_agent",
         providerId: "sharan",
         email: "agent@sharan.demo",
@@ -133,6 +148,15 @@ function buildSeed(): DB {
         name: "Suresh Amar",
         passwordHash: hash(DEMO_PW),
         role: "owner",
+        createdAt: now,
+      },
+      {
+        id: "u_amar_crm_admin",
+        providerId: "amar-eye-yoga",
+        email: "amar_admin@stilwater.demo",
+        name: "AMAR_ADMIN",
+        passwordHash: hash(DEMO_PW),
+        role: "admin",
         createdAt: now,
       },
       {
@@ -255,6 +279,50 @@ function buildSeed(): DB {
           "The three foundational eye-yoga exercises anyone can start today.",
       },
     ],
+    enquiries: [],
+    avatars: [
+      {
+        id: "av_nandita",
+        providerId: "sharan",
+        name: "Dr. Nandita Shah",
+        specialty: "Plant-based medicine · Diabetes reversal",
+        blurb:
+          "Ask about reversing diabetes, thyroid and heart disease through plant-based nutrition and daily habits.",
+        hue: 140,
+        emoji: "🌿",
+      },
+      {
+        id: "av_amar",
+        providerId: "amar-eye-yoga",
+        name: "Dr. Amar Sandhu",
+        specialty: "Eye yoga · Natural vision care",
+        blurb:
+          "Talk to the eye-yoga healer about myopia, digital eye-strain and reducing dependency on glasses.",
+        hue: 220,
+        emoji: "👁️",
+      },
+      {
+        id: "av_meditation",
+        providerId: "sharan",
+        name: "Guru Ananta",
+        specialty: "Meditation · Pranayama · Stress relief",
+        blurb:
+          "A meditation coach to guide you through breathwork, mindfulness and stress-release practices.",
+        hue: 35,
+        emoji: "🧘",
+      },
+      {
+        id: "av_ayurveda",
+        providerId: "sharan",
+        name: "Vaidya Lakshmi",
+        specialty: "Ayurveda · Holistic lifestyle",
+        blurb:
+          "An Ayurvedic healer to advise on dosha-based daily routines, seasonal eating and herbs.",
+        hue: 15,
+        emoji: "🪔",
+      },
+    ],
+    feedback: [],
   };
 }
 
@@ -287,6 +355,9 @@ export function readDB(): DB {
     invoices: parsed.invoices ?? [],
     reports: parsed.reports ?? [],
     prescriptions: parsed.prescriptions ?? [],
+    enquiries: parsed.enquiries ?? [],
+    avatars: parsed.avatars?.length ? parsed.avatars : seed.avatars,
+    feedback: parsed.feedback ?? [],
   };
 }
 

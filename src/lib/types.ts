@@ -88,6 +88,39 @@ export interface Provider {
   description: string;
   services: string[];
   color: string;
+  logoText?: string;
+  logoAccent?: string;
+  whatsappNumber?: string;
+}
+
+export interface Enquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  interest?: string;
+  createdAt: string;
+}
+
+export interface HealerAvatar {
+  id: string;
+  providerId: string;
+  name: string;
+  specialty: string;
+  blurb: string;
+  hue: number;
+  emoji: string;
+}
+
+export interface HealerFeedback {
+  id: string;
+  avatarId: string;
+  name: string;
+  email?: string;
+  rating: number;
+  comments: string;
+  createdAt: string;
 }
 
 export interface TranscriptAction {
@@ -268,4 +301,7 @@ export interface DB {
   reports: DiagnosticReport[];
   prescriptions: Prescription[];
   videos: Video[];
+  enquiries: Enquiry[];
+  avatars: HealerAvatar[];
+  feedback: HealerFeedback[];
 }
