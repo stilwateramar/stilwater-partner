@@ -31,6 +31,9 @@ function buildSeed(): DB {
           "Stress & sleep coaching",
         ],
         color: "#2f9e6b",
+        logoInitials: "SH",
+        logoBg: "#0f5132",
+        logoFg: "#d1fae5",
       },
       {
         id: "amar-eye-yoga",
@@ -46,6 +49,9 @@ function buildSeed(): DB {
           "Pediatric eye yoga",
         ],
         color: "#4b6bdf",
+        logoInitials: "AE",
+        logoBg: "#1e3a8a",
+        logoFg: "#dbeafe",
       },
     ],
     doctors: [
@@ -136,6 +142,15 @@ function buildSeed(): DB {
         createdAt: now,
       },
       {
+        id: "u_amar_admin",
+        providerId: "amar-eye-yoga",
+        email: "admin@amareye.demo",
+        name: "Meera Iyer",
+        passwordHash: hash(DEMO_PW),
+        role: "admin",
+        createdAt: now,
+      },
+      {
         id: "u_amar_agent",
         providerId: "amar-eye-yoga",
         email: "agent@amareye.demo",
@@ -206,6 +221,22 @@ function buildSeed(): DB {
     prescriptions: [],
     enquiries: [],
     avatarFeedback: [],
+    providerSettings: [
+      {
+        providerId: "sharan",
+        whatsappNumber: "",
+        whatsappBusinessId: "",
+        whatsappConnected: false,
+        updatedAt: now,
+      },
+      {
+        providerId: "amar-eye-yoga",
+        whatsappNumber: "",
+        whatsappBusinessId: "",
+        whatsappConnected: false,
+        updatedAt: now,
+      },
+    ],
     videos: [
       {
         id: "vid_nandita_intro",
@@ -260,6 +291,21 @@ function buildSeed(): DB {
   };
 }
 
+function mergeById<T extends { id: string }>(
+  existing: T[] | undefined,
+  seed: T[]
+): T[] {
+  if (!existing?.length) return seed;
+  const seedById = new Map(seed.map((x) => [x.id, x]));
+  const merged = existing.map((e) => {
+    const s = seedById.get(e.id);
+    return s ? { ...s, ...e } : e;
+  });
+  const ids = new Set(existing.map((x) => x.id));
+  const missing = seed.filter((x) => !ids.has(x.id));
+  return [...merged, ...missing];
+}
+
 function ensureFile() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(DB_FILE)) {
@@ -273,9 +319,9 @@ export function readDB(): DB {
   const parsed = JSON.parse(raw) as Partial<DB>;
   const seed = buildSeed();
   return {
-    providers: parsed.providers?.length ? parsed.providers : seed.providers,
+    providers: mergeById(parsed.providers, seed.providers),
     doctors: parsed.doctors?.length ? parsed.doctors : seed.doctors,
-    users: parsed.users?.length ? parsed.users : seed.users,
+    users: mergeById(parsed.users, seed.users),
     programs: parsed.programs?.length ? parsed.programs : seed.programs,
     videos: parsed.videos?.length ? parsed.videos : seed.videos,
     patients: parsed.patients ?? [],
@@ -291,6 +337,9 @@ export function readDB(): DB {
     prescriptions: parsed.prescriptions ?? [],
     enquiries: parsed.enquiries ?? [],
     avatarFeedback: parsed.avatarFeedback ?? [],
+    providerSettings: parsed.providerSettings?.length
+      ? parsed.providerSettings
+      : seed.providerSettings,
   };
 }
 

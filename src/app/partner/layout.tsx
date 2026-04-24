@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPartnerUser, canManageTeam } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 import LogoutButton from "@/components/LogoutButton";
+import ProviderLogo from "@/components/ProviderLogo";
 
 export default function PartnerLayout({
   children,
@@ -19,18 +20,16 @@ export default function PartnerLayout({
 
   const isManager = canManageTeam(user);
   const isDoctor = user.role === "doctor";
+  const isAdmin = user.role === "admin" || user.role === "owner";
 
   return (
     <div className="grid md:grid-cols-[220px_1fr] gap-6">
       <aside className="card p-4 h-max md:sticky md:top-20">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
           {provider ? (
-            <span
-              className="h-8 w-8 rounded-lg"
-              style={{ background: provider.color }}
-            />
+            <ProviderLogo provider={provider} size={36} showName={false} />
           ) : (
-            <span className="h-8 w-8 rounded-lg bg-slate-800" />
+            <span className="h-9 w-9 rounded-lg bg-slate-800" />
           )}
           <div>
             <div className="text-sm font-semibold">
@@ -43,6 +42,7 @@ export default function PartnerLayout({
         </div>
         <nav className="mt-3 flex md:flex-col gap-1 text-sm flex-wrap">
           <NavItem href="/partner" label="Overview" />
+          {isAdmin && <NavItem href="/partner/crm" label="CRM" />}
           <NavItem href="/partner/leads" label="Leads" />
           <NavItem href="/partner/calls" label="Call log" />
           <NavItem href="/partner/payments" label="Payments & invoices" />

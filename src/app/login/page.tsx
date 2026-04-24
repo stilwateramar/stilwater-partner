@@ -4,10 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const DEMOS = [
+interface DemoUser {
+  who: string;
+  email: string;
+  highlight?: boolean;
+}
+
+const CRM_ADMINS: DemoUser[] = [
+  { who: "SHARAN admin — CRM", email: "admin@sharan.demo", highlight: true },
+  {
+    who: "Amar Eye Yoga admin — CRM",
+    email: "admin@amareye.demo",
+    highlight: true,
+  },
+];
+
+const DEMOS: DemoUser[] = [
   { who: "Stilwater super-admin", email: "admin@stilwater.demo" },
   { who: "SHARAN owner", email: "owner@sharan.demo" },
-  { who: "SHARAN admin", email: "admin@sharan.demo" },
   { who: "SHARAN agent (makes calls)", email: "agent@sharan.demo" },
   { who: "SHARAN doctor", email: "doctor@sharan.demo" },
   { who: "Amar Eye Yoga owner", email: "owner@amareye.demo" },
@@ -36,6 +50,7 @@ export default function Login() {
     }
     const { user } = await r.json();
     if (user.role === "stilwater_admin") router.push("/admin");
+    else if (user.role === "admin") router.push("/partner/crm");
     else router.push("/partner");
   }
 
@@ -83,14 +98,31 @@ export default function Login() {
         </div>
       </div>
       <div className="card p-6">
-        <p className="label">Demo users</p>
-        <h2 className="font-semibold">Click to prefill</h2>
+        <p className="label">CRM admin logins</p>
+        <h2 className="font-semibold">Sign in as a partner admin</h2>
         <p className="text-sm text-slate-500 mt-1">
-          All demo accounts use password{" "}
+          Admins land directly in the CRM. All demo accounts use password{" "}
           <code className="text-xs bg-slate-100 px-1 rounded">password123</code>
           .
         </p>
         <ul className="mt-4 space-y-2 text-sm">
+          {CRM_ADMINS.map((d) => (
+            <li key={d.email}>
+              <button
+                onClick={() => {
+                  setEmail(d.email);
+                  setPassword("password123");
+                }}
+                className="w-full text-left rounded-lg border border-still-400 bg-still-50 px-3 py-2 hover:bg-still-100"
+              >
+                <div className="font-medium text-still-900">{d.who}</div>
+                <div className="text-xs text-still-700">{d.email}</div>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p className="label mt-6">Other demo users</p>
+        <ul className="mt-2 space-y-2 text-sm">
           {DEMOS.map((d) => (
             <li key={d.email}>
               <button

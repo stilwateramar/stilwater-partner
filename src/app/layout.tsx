@@ -110,12 +110,46 @@ export default function RootLayout({
               )}
               {partner && (
                 <>
+                  {scopedProviders.length === 1 && (
+                    <span
+                      className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-2 py-1"
+                      aria-label={`${scopedProviders[0].name} logo`}
+                    >
+                      <span
+                        className="grid place-items-center rounded-md font-serif font-semibold tracking-wider"
+                        style={{
+                          background:
+                            scopedProviders[0].logoBg ??
+                            scopedProviders[0].color,
+                          color: scopedProviders[0].logoFg ?? "#ffffff",
+                          height: 26,
+                          width: 26,
+                          fontSize: 11,
+                        }}
+                      >
+                        {scopedProviders[0].logoInitials ??
+                          scopedProviders[0].name
+                            .split(/\s+/)
+                            .slice(0, 2)
+                            .map((w) => w[0])
+                            .join("")
+                            .toUpperCase()}
+                      </span>
+                      <span className="font-serif text-sm leading-none text-white/90">
+                        {scopedProviders[0].name}
+                      </span>
+                    </span>
+                  )}
                   <span className="hidden sm:inline text-xs text-white/70">
                     Hi, {partner.name.split(" ")[0]}
                   </span>
                   <Link
                     href={
-                      partner.role === "stilwater_admin" ? "/admin" : "/partner"
+                      partner.role === "stilwater_admin"
+                        ? "/admin"
+                        : partner.role === "admin"
+                        ? "/partner/crm"
+                        : "/partner"
                     }
                     className="hidden sm:inline-flex items-center rounded border border-white/40 px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-white hover:bg-white/10"
                   >

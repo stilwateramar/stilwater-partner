@@ -88,6 +88,17 @@ export interface Provider {
   description: string;
   services: string[];
   color: string;
+  logoInitials?: string;
+  logoBg?: string;
+  logoFg?: string;
+}
+
+export interface ProviderSetting {
+  providerId: string;
+  whatsappNumber?: string;
+  whatsappBusinessId?: string;
+  whatsappConnected: boolean;
+  updatedAt: string;
 }
 
 export interface TranscriptAction {
@@ -290,4 +301,5 @@ export interface DB {
   videos: Video[];
   enquiries: Enquiry[];
   avatarFeedback: AvatarFeedback[];
+  providerSettings: ProviderSetting[];
 }

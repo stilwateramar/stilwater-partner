@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getPartnerUser } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 
 export default function PartnerHome() {
   const user = getPartnerUser()!;
+  if (user.role === "admin") redirect("/partner/crm");
   const db = readDB();
   const scope = (id: string | undefined) =>
     user.providerId ? id === user.providerId : true;
