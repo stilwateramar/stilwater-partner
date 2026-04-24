@@ -251,6 +251,26 @@ export interface Video {
   description: string;
 }
 
+export interface Enquiry {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  interest: string;
+  message: string;
+  createdAt: string;
+}
+
+export interface AvatarFeedback {
+  id: string;
+  avatarId: string;
+  name: string;
+  email?: string;
+  rating: number;
+  comments: string;
+  createdAt: string;
+}
+
 export interface DB {
   providers: Provider[];
   doctors: Doctor[];
@@ -268,4 +288,6 @@ export interface DB {
   reports: DiagnosticReport[];
   prescriptions: Prescription[];
   videos: Video[];
+  enquiries: Enquiry[];
+  avatarFeedback: AvatarFeedback[];
 }

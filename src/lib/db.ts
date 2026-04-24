@@ -204,6 +204,8 @@ function buildSeed(): DB {
     invoices: [],
     reports: [],
     prescriptions: [],
+    enquiries: [],
+    avatarFeedback: [],
     videos: [
       {
         id: "vid_nandita_intro",
@@ -287,6 +289,8 @@ export function readDB(): DB {
     invoices: parsed.invoices ?? [],
     reports: parsed.reports ?? [],
     prescriptions: parsed.prescriptions ?? [],
+    enquiries: parsed.enquiries ?? [],
+    avatarFeedback: parsed.avatarFeedback ?? [],
   };
 }
 

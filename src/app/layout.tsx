@@ -43,21 +43,23 @@ export default function RootLayout({
           <div className="mx-auto max-w-6xl px-5 py-4 flex items-center gap-8">
             <Link href="/" className="flex items-center gap-3">
               <span className="inline-block h-7 w-7 rounded-full bg-gradient-to-br from-still-400 to-still-200" />
-              <span className="font-serif tracking-[0.35em] text-lg uppercase">
-                Stillwater
+              <span className="flex flex-col leading-tight">
+                <span className="font-serif tracking-[0.35em] text-lg uppercase">
+                  Stillwater
+                </span>
+                <span className="hidden sm:inline text-[10px] tracking-[0.25em] uppercase text-white/60">
+                  The global community for holistic healing
+                </span>
               </span>
             </Link>
             <nav className="hidden md:flex gap-6 text-xs uppercase tracking-[0.25em] text-white/70">
               {!partner && !patient && (
                 <>
-                  <Link href="/#vision" className="hover:text-white">
-                    Vision
+                  <Link href="/partner-ai-tools" className="hover:text-white">
+                    Partner AI Tools
                   </Link>
-                  <Link href="/#providers" className="hover:text-white">
-                    Providers
-                  </Link>
-                  <Link href="/ad-simulator" className="hover:text-white">
-                    Demo
+                  <Link href="/ai-healers" className="hover:text-white">
+                    AI Healers
                   </Link>
                 </>
               )}
@@ -93,16 +95,16 @@ export default function RootLayout({
               {!partner && !patient && (
                 <>
                   <Link
-                    href="/patient/login"
-                    className="text-xs uppercase tracking-[0.2em] text-white/80 hover:text-white"
+                    href="/login"
+                    className="inline-flex items-center rounded border border-white/40 px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-white hover:bg-white/10"
                   >
-                    Patient
+                    Partner Login
                   </Link>
                   <Link
-                    href="/login"
-                    className="inline-flex items-center rounded border border-white/40 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white hover:bg-white/10"
+                    href="/patient/login"
+                    className="inline-flex items-center rounded bg-white text-still-900 px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] hover:bg-still-100"
                   >
-                    Partner Sign In
+                    User Login
                   </Link>
                 </>
               )}
