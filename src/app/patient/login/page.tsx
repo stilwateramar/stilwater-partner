@@ -114,6 +114,12 @@ export default function PatientLogin() {
         )}
         {err && <div className="text-sm text-red-600">{err}</div>}
         <div className="pt-3 text-sm text-slate-500">
+          New to Stillwater?{" "}
+          <Link className="underline" href="/patient/signup">
+            Create an account
+          </Link>
+        </div>
+        <div className="text-sm text-slate-500">
           Partner staff?{" "}
           <Link className="underline" href="/login">
             Sign in here

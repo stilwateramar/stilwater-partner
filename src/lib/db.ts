@@ -280,6 +280,8 @@ function buildSeed(): DB {
       },
     ],
     enquiries: [],
+    signupCodes: [],
+    patientRequests: [],
     avatars: [
       {
         id: "av_nandita",
@@ -358,6 +360,8 @@ export function readDB(): DB {
     enquiries: parsed.enquiries ?? [],
     avatars: parsed.avatars?.length ? parsed.avatars : seed.avatars,
     feedback: parsed.feedback ?? [],
+    signupCodes: parsed.signupCodes ?? [],
+    patientRequests: parsed.patientRequests ?? [],
   };
 }
 

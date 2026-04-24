@@ -76,8 +76,14 @@ export default function RootLayout({
                     User login
                   </Link>
                   <Link
+                    href="/patient/signup"
+                    className="inline-flex items-center rounded bg-still-500 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white hover:bg-still-400"
+                  >
+                    Sign up
+                  </Link>
+                  <Link
                     href="/login"
-                    className="inline-flex items-center rounded border border-white/40 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white hover:bg-white/10"
+                    className="hidden sm:inline-flex items-center rounded border border-white/40 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white hover:bg-white/10"
                   >
                     Partner login
                   </Link>

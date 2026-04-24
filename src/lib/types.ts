@@ -123,6 +123,33 @@ export interface HealerFeedback {
   createdAt: string;
 }
 
+export interface SignupCode {
+  id: string;
+  code: string;
+  providerId: string;
+  programId?: string;
+  intendedName?: string;
+  intendedPhone?: string;
+  intendedEmail?: string;
+  createdByUserId: string;
+  usedByPatientId?: string;
+  usedAt?: string;
+  createdAt: string;
+}
+
+export type PatientRequestStatus = "open" | "in_progress" | "resolved";
+
+export interface PatientRequest {
+  id: string;
+  patientId: string;
+  providerId: string;
+  subject: string;
+  message: string;
+  status: PatientRequestStatus;
+  createdAt: string;
+  resolvedAt?: string;
+}
+
 export interface TranscriptAction {
   kind: "prescription" | "follow_up" | "referral" | "lifestyle";
   text: string;
@@ -164,6 +191,8 @@ export interface Patient {
   email?: string;
   providerId: string;
   leadId?: string;
+  programId?: string;
+  signupCode?: string;
   createdAt: string;
   chatbotCredits: number;
   avatarCredits: number;
@@ -304,4 +333,6 @@ export interface DB {
   enquiries: Enquiry[];
   avatars: HealerAvatar[];
   feedback: HealerFeedback[];
+  signupCodes: SignupCode[];
+  patientRequests: PatientRequest[];
 }

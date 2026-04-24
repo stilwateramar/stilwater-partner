@@ -42,6 +42,8 @@ export default function PartnerLayout({
         <nav className="mt-3 flex md:flex-col gap-1 text-sm flex-wrap">
           <NavItem href="/partner" label="Overview" />
           <NavItem href="/partner/leads" label="CRM · Leads" />
+          <NavItem href="/partner/patients" label="Enrolled users" />
+          <NavItem href="/partner/requests" label="User requests" />
           <NavItem href="/partner/calls" label="Call log" />
           <NavItem href="/partner/payments" label="Payments & invoices" />
           {isDoctor && (
@@ -49,6 +51,10 @@ export default function PartnerLayout({
           )}
           {isManager && (
             <>
+              <NavItem
+                href="/partner/signup-codes"
+                label="Signup codes"
+              />
               <NavItem href="/partner/team" label="Team &amp; admins" />
               <NavItem
                 href="/partner/whatsapp"

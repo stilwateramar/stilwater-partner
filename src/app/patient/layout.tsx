@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { getPatient } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 import LogoutButton from "@/components/LogoutButton";
+import ProviderLogo from "@/components/ProviderLogo";
 
 export default function PatientLayout({
   children,
@@ -35,28 +36,33 @@ export default function PatientLayout({
   return (
     <div className="grid md:grid-cols-[220px_1fr] gap-6">
       <aside className="card p-4 h-max md:sticky md:top-20">
-        <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-          {provider && (
-            <span
-              className="h-8 w-8 rounded-lg"
-              style={{ background: provider.color }}
-            />
-          )}
-          <div>
-            <div className="text-sm font-semibold">Stilwater portal</div>
-            <div className="text-[10px] uppercase tracking-wider text-slate-500">
-              {provider?.name}
+        <div className="pb-3 border-b border-slate-100">
+          {provider ? (
+            <ProviderLogo provider={provider} size="md" />
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="h-9 w-9 rounded-lg bg-gradient-to-br from-still-400 to-still-600" />
+              <div>
+                <div className="font-serif text-sm font-semibold">
+                  Stillwater
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-slate-500">
+                  Community member
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <nav className="mt-3 flex md:flex-col gap-1 text-sm flex-wrap">
           <Item href="/patient/dashboard" label="Dashboard" />
+          <Item href="/patient/reports" label="Case details & reports" />
+          <Item href="/patient/dashboard#invoices" label="Invoices" />
           <Item href="/patient/videos" label="Videos" />
           <Item href="/patient/consultations" label="Consultations" />
-          <Item href="/patient/reports" label="Diagnostic reports" />
           <Item href="/patient/prescriptions" label="Prescriptions" />
-          <Item href="/patient/chatbot" label="SHARAN chatbot" />
+          <Item href="/patient/chatbot" label="Partner chatbot" />
           <Item href="/patient/avatar" label="AI avatar" />
+          <Item href="/ai-healers" label="Recommended healers" />
         </nav>
         <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
           Signed in as<br />
