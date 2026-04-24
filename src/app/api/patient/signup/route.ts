@@ -21,8 +21,11 @@ export async function POST(req: Request) {
   }
 
   const result = updateDB((db) => {
-    // Duplicate phone guard.
-    const existing = db.patients.find((p) => p.phone === phone);
+    // Duplicate phone guard (compare digits only so "+91 9..." and "9..." match).
+    const phoneDigits = phone.replace(/\D+/g, "");
+    const existing = db.patients.find(
+      (p) => p.phone.replace(/\D+/g, "") === phoneDigits
+    );
     if (existing) return { error: "phone_in_use" as const };
 
     let providerId = STILWATER_PROVIDER_ID;

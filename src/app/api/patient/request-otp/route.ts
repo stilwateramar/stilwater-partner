@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 import { updateDB } from "@/lib/db";
 
+function digits(s: string) {
+  return s.replace(/\D+/g, "");
+}
+
 export async function POST(req: Request) {
   const { phone } = await req.json();
   if (!phone) return NextResponse.json({ error: "phone required" }, { status: 400 });
 
   const code = String(Math.floor(1000 + Math.random() * 9000));
   updateDB((db) => {
-    db.otps = db.otps.filter((o) => o.phone !== phone);
+    const d = digits(phone);
+    db.otps = db.otps.filter((o) => digits(o.phone) !== d);
     db.otps.push({
       phone,
       code,

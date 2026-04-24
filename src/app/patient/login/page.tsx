@@ -42,7 +42,13 @@ export default function PatientLogin() {
     setBusy(false);
     if (!r.ok) {
       const d = await r.json().catch(() => ({}));
-      setErr(d.hint ?? "Invalid or expired OTP.");
+      if (d.error === "no_account") {
+        setErr(
+          "No account found for this phone. Create one from the Sign-up page."
+        );
+      } else {
+        setErr(d.hint ?? "Invalid or expired OTP.");
+      }
       return;
     }
     router.push("/patient/dashboard");
