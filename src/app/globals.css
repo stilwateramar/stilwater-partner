@@ -12,7 +12,7 @@ body {
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-still-50 text-slate-900 antialiased;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -24,17 +24,20 @@ body {
   @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition;
 }
 .btn-primary {
-  @apply btn bg-still-600 text-white hover:bg-still-700;
+  @apply btn bg-still-800 text-white hover:bg-still-900;
 }
 .btn-ghost {
-  @apply btn border border-slate-200 text-slate-700 hover:bg-slate-100;
+  @apply btn border border-slate-300 text-slate-700 hover:bg-slate-100;
+}
+.btn-outline-dark {
+  @apply btn border border-still-900/30 text-still-900 hover:bg-still-900 hover:text-white;
 }
 .badge {
   @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium;
 }
 .input {
-  @apply w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-still-500 focus:outline-none focus:ring-1 focus:ring-still-500;
+  @apply w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-still-600 focus:outline-none focus:ring-1 focus:ring-still-600;
 }
 .label {
-  @apply text-xs font-medium uppercase tracking-wider text-slate-500;
+  @apply text-xs font-medium uppercase tracking-[0.2em] text-slate-500;
 }

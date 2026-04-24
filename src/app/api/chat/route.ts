@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { readDB, updateDB, newId } from "@/lib/db";
 import { runAgent } from "@/lib/agent";
+import { getPartnerUser, getPatient } from "@/lib/auth";
 import type { Channel } from "@/lib/types";
 
 export async function GET(req: Request) {
@@ -8,9 +9,28 @@ export async function GET(req: Request) {
   const sessionId = url.searchParams.get("sessionId");
   const leadId = url.searchParams.get("leadId");
   const db = readDB();
-  const messages = db.messages.filter((m) =>
+  const partner = getPartnerUser();
+  const patient = getPatient();
+
+  let messages = db.messages.filter((m) =>
     sessionId ? m.sessionId === sessionId : leadId ? m.leadId === leadId : false
   );
+
+  if (partner?.role === "stilwater_admin") {
+    // no filter
+  } else if (partner?.providerId) {
+    messages = messages.filter((m) => {
+      if (!m.leadId) return true;
+      const lead = db.leads.find((l) => l.id === m.leadId);
+      return lead?.providerId === partner.providerId;
+    });
+  } else if (patient) {
+    messages = messages.filter(
+      (m) => m.patientId === patient.id || m.leadId === patient.leadId
+    );
+  }
+  // Anonymous callers get results for the specific session they've
+  // addressed (e.g. website chatbot session), which is intended.
   return NextResponse.json({ messages });
 }
 

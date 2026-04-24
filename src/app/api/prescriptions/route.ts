@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPartnerUser } from "@/lib/auth";
+import { getPartnerUser, getPatient } from "@/lib/auth";
 import { newId, updateDB, readDB } from "@/lib/db";
 import { pushMessage } from "@/lib/messaging";
 import type { Prescription } from "@/lib/types";
@@ -64,9 +64,22 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const consultationId = url.searchParams.get("consultationId");
+  const partner = getPartnerUser();
+  const patient = getPatient();
   const db = readDB();
-  const list = consultationId
+
+  let list = consultationId
     ? db.prescriptions.filter((p) => p.consultationId === consultationId)
     : db.prescriptions;
+
+  if (partner?.role === "stilwater_admin") {
+    // no additional filter
+  } else if (partner?.providerId) {
+    list = list.filter((p) => p.providerId === partner.providerId);
+  } else if (patient) {
+    list = list.filter((p) => p.patientId === patient.id);
+  } else {
+    list = [];
+  }
   return NextResponse.json({ prescriptions: list });
 }

@@ -58,7 +58,12 @@ export default function AdSimulator() {
   useEffect(() => {
     fetch("/api/providers")
       .then((r) => r.json())
-      .then((d) => setProviders(d.providers));
+      .then((d) => {
+        setProviders(d.providers);
+        // If the logged-in partner only has one provider in scope, lock the
+        // picker to that one.
+        if (d.providers.length === 1) setProviderId(d.providers[0].id);
+      });
   }, []);
 
   const ad = CAMPAIGNS[providerId][adIdx];

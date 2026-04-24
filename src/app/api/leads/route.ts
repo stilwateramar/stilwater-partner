@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import { readDB, updateDB, newId } from "@/lib/db";
 import { openingMessage } from "@/lib/agent";
+import { getPartnerUser } from "@/lib/auth";
 import type { Lead } from "@/lib/types";
 
 export async function GET() {
+  const user = getPartnerUser();
   const db = readDB();
-  return NextResponse.json({ leads: db.leads });
+  // Public callers (e.g. the ad simulator from anon users) get nothing useful.
+  // Stilwater super-admin sees everything; a partner user only sees their own.
+  if (!user) return NextResponse.json({ leads: [] });
+  const leads =
+    user.role === "stilwater_admin"
+      ? db.leads
+      : db.leads.filter((l) => l.providerId === user.providerId);
+  return NextResponse.json({ leads });
 }
 
 export async function POST(req: Request) {
