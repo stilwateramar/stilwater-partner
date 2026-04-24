@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
+import { getPartnerUser } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 
 export async function GET() {
-  const db = readDB();
-  return NextResponse.json(db);
+  const user = getPartnerUser();
+  if (!user || user.role !== "stilwater_admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  return NextResponse.json(readDB());
 }
